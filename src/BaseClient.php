@@ -46,6 +46,10 @@ abstract class BaseClient
      */
     public function __construct($appKey, $secret)
     {
+        if (empty($appKey) || empty($secret)) {
+            throw new \InvalidArgumentException('Appkey and secret is required.');
+        }
+
         $this->_appKey = $appKey;
         $this->_secret = $secret;
 
@@ -98,6 +102,10 @@ abstract class BaseClient
         return $this;
     }
 
+    /**
+     * @param null $name
+     * @return array|bool|mixed
+     */
     public function getParam($name = null)
     {
         if ($name === null) {
@@ -123,7 +131,7 @@ abstract class BaseClient
     /**
      * @return array
      */
-    private static function getPublicParams()
+    protected static function getPublicParams()
     {
         return [
             'timestamp' => date('Y-m-d H:i:s', time()),
@@ -132,6 +140,15 @@ abstract class BaseClient
             'sign_method' => 'md5',
         ];
     }
+
+    /**
+     * @return array
+     */
+    protected static function getPublicRequireParams()
+    {
+        return ['method', 'app_key', 'timestamp', 'v', 'sign_method', 'sign'];
+    }
+
 
     /**
      * @return string
@@ -158,6 +175,30 @@ abstract class BaseClient
         $this->_params['method'] = $this->_method;
         $sign = $this->generateSign();
         $this->_params['sign'] = $sign;
+
+        $this->checkRequireParams();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequireParams()
+    {
+        return [];
+    }
+
+    /**
+     * check require params
+     */
+    private function checkRequireParams()
+    {
+        $requireParams = array_merge(static::getPublicRequireParams(), $this->getRequireParams());
+
+        foreach ($requireParams as $param) {
+            if (!isset($this->_params[$param])) {
+                throw new \InvalidArgumentException("$param is required.");
+            }
+        }
     }
 
     /**

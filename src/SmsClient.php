@@ -57,6 +57,11 @@ class SmsClient extends BaseClient
         return $this->setParam('rec_num', $value);
     }
 
+    protected function getRequireParams()
+    {
+        return ['sms_type', 'sms_free_sign_name', 'rec_num', 'sms_template_code'];
+    }
+
     /**
      * @param $value
      * @return $this
