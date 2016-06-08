@@ -8,6 +8,8 @@
 
 namespace cdcchen\alidayu;
 
+use cdcchen\net\curl\Response as CurlResponse;
+
 
 /**
  * Class SmsClient
@@ -57,11 +59,6 @@ class SmsClient extends BaseClient
         return $this->setParam('rec_num', $value);
     }
 
-    protected function getRequireParams()
-    {
-        return ['sms_type', 'sms_free_sign_name', 'rec_num', 'sms_template_code'];
-    }
-
     /**
      * @param $value
      * @return $this
@@ -82,5 +79,21 @@ class SmsClient extends BaseClient
     {
         return $this->setParam('extend', $value);
     }
+
+    protected function getRequireParams()
+    {
+        return ['sms_type', 'sms_free_sign_name', 'rec_num', 'sms_template_code'];
+    }
+
+    protected function buildSuccessResponse(CurlResponse $response)
+    {
+        $data = json_decode($response->getContent(), true);
+
+        $result = $data['alibaba_aliqin_fc_sms_num_send_response']['result'];
+        $result['request_id'] = $data['alibaba_aliqin_fc_sms_num_send_response']['request_id'];
+
+        return new Response($result);
+    }
+
 
 }

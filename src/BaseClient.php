@@ -57,7 +57,7 @@ abstract class BaseClient
     }
 
     /**
-     * @return bool|Response
+     * @return bool|Error|\cdcchen\alidayu\Response
      * @throws \cdcchen\net\curl\RequestException
      */
     public function execute()
@@ -211,11 +211,31 @@ abstract class BaseClient
 
     /**
      * @param Response $response
-     * @return Response
+     * @return \cdcchen\alidayu\Response
+     */
+    abstract protected function buildSuccessResponse(Response $response);
+
+    /**
+     * @param Response $response
+     * @return bool|Error
+     */
+    protected function buildErrorResponse(Response $response)
+    {
+        $body = $response->getContent();
+        $data = json_decode($body, true);
+        if (isset($data['error_response'])) {
+            return new Error($data['error_response']);
+        }
+        return false;
+    }
+
+    /**
+     * @param Response $response
+     * @return \cdcchen\alidayu\Response | Error
      */
     protected function afterExecute(Response $response)
     {
-        return $response;
+        return $this->buildErrorResponse($response) ?: $this->buildSuccessResponse($response);
     }
 
 }
