@@ -15,8 +15,10 @@ use cdcchen\net\curl\Response as CurlResponse;
  * Class SmsClient
  * @package cdcchen\alidayu
  */
-class SmsClient extends BaseClient
+class SmsSendClient extends BaseClient
 {
+    public $method = 'alibaba.aliqin.fc.sms.num.send';
+
     /**
      * @param $value
      * @return $this

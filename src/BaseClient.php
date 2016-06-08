@@ -21,15 +21,16 @@ abstract class BaseClient
     /**
      * @var string
      */
+    public $method;
+
+    /**
+     * @var string
+     */
     private $_appKey;
     /**
      * @var string
      */
     private $_secret;
-    /**
-     * @var string
-     */
-    private $_method;
     /**
      * @var array
      */
@@ -87,7 +88,7 @@ abstract class BaseClient
      */
     public function setMethod($value)
     {
-        $this->_method = $value;
+        $this->method = $value;
         return $this;
     }
 
@@ -172,7 +173,7 @@ abstract class BaseClient
     private function prepare()
     {
         $this->_params['app_key'] = $this->_appKey;
-        $this->_params['method'] = $this->_method;
+        $this->_params['method'] = $this->method;
         $sign = $this->generateSign();
         $this->_params['sign'] = $sign;
 
@@ -235,6 +236,7 @@ abstract class BaseClient
      */
     protected function afterExecute(Response $response)
     {
+//        echo $response->getContent();
         return $this->buildErrorResponse($response) ?: $this->buildSuccessResponse($response);
     }
 
