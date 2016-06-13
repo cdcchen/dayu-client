@@ -30,12 +30,13 @@ class Response
     }
 
     /**
-     * @param $name
+     * @param string $name
+     * @param mixed $defaultValue
      * @return mixed|null
      */
-    public function get($name)
+    public function get($name, $defaultValue = null)
     {
-        return isset($this->_data[$name]) ? $this->_data[$name] : null;
+        return isset($this->_data[$name]) ? $this->_data[$name] : $defaultValue;
     }
 
     /**

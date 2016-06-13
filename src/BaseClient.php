@@ -10,7 +10,7 @@ namespace cdcchen\alidayu;
 
 
 use cdcchen\net\curl\Client;
-use cdcchen\net\curl\Response;
+use cdcchen\net\curl\Response as CurlResponse;
 
 /**
  * Class BaseClient
@@ -104,7 +104,7 @@ abstract class BaseClient
     }
 
     /**
-     * @param null $name
+     * @param null|string $name
      * @return array|bool|mixed
      */
     public function getParam($name = null)
@@ -211,33 +211,35 @@ abstract class BaseClient
     }
 
     /**
-     * @param Response $response
-     * @return \cdcchen\alidayu\Response
+     * @param CurlResponse $response
+     * @return bool|Error|CurlResponse
      */
-    abstract protected function buildSuccessResponse(Response $response);
-
-    /**
-     * @param Response $response
-     * @return bool|Error
-     */
-    protected function buildErrorResponse(Response $response)
+    protected function buildResponse(CurlResponse $response)
     {
-        $body = $response->getContent();
-        $data = json_decode($body, true);
-        if (isset($data['error_response'])) {
+        $data = json_decode($response->getContent(), true);
+        $successKey = str_replace('.', '_', $this->method) . '_response';
+
+        if (isset($data[$successKey])) {
+            return $this->afterResponse($data[$successKey]);
+        } elseif (isset($data['error_response'])) {
             return new Error($data['error_response']);
+        } else {
+            return false;
         }
-        return false;
+    }
+
+    protected function afterResponse(array $data)
+    {
+        return new Response($data);
     }
 
     /**
-     * @param Response $response
+     * @param CurlResponse $response
      * @return \cdcchen\alidayu\Response | Error
      */
-    protected function afterExecute(Response $response)
+    protected function afterExecute(CurlResponse $response)
     {
-//        echo $response->getContent();
-        return $this->buildErrorResponse($response) ?: $this->buildSuccessResponse($response);
+        return $this->buildResponse($response);
     }
 
 }

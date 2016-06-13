@@ -8,8 +8,6 @@
 
 namespace cdcchen\alidayu;
 
-use cdcchen\net\curl\Response as CurlResponse;
-
 
 /**
  * Class SmsClient
@@ -17,10 +15,13 @@ use cdcchen\net\curl\Response as CurlResponse;
  */
 class SmsSendClient extends BaseClient
 {
+    /**
+     * @var string
+     */
     public $method = 'alibaba.aliqin.fc.sms.num.send';
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setSmsType($value)
@@ -29,7 +30,7 @@ class SmsSendClient extends BaseClient
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setSmsFreeSignName($value)
@@ -38,7 +39,7 @@ class SmsSendClient extends BaseClient
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setSmsTemplateCode($value)
@@ -47,7 +48,7 @@ class SmsSendClient extends BaseClient
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setReceiveNumber($value)
@@ -62,7 +63,7 @@ class SmsSendClient extends BaseClient
     }
 
     /**
-     * @param $value
+     * @param array|string $value
      * @return $this
      */
     public function setSmsParams($value)
@@ -74,7 +75,7 @@ class SmsSendClient extends BaseClient
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setExtend($value)
@@ -82,20 +83,24 @@ class SmsSendClient extends BaseClient
         return $this->setParam('extend', $value);
     }
 
+    /**
+     * @return array
+     */
     protected function getRequireParams()
     {
         return ['sms_type', 'sms_free_sign_name', 'rec_num', 'sms_template_code'];
     }
 
-    protected function buildSuccessResponse(CurlResponse $response)
+    /**
+     * @param array $data
+     * @return Response
+     */
+    protected function afterResponse(array $data)
     {
-        $data = json_decode($response->getContent(), true);
-
-        $result = $data['alibaba_aliqin_fc_sms_num_send_response']['result'];
-        $result['request_id'] = $data['alibaba_aliqin_fc_sms_num_send_response']['request_id'];
+        $result = $data['result'];
+        $result['request_id'] = $data['request_id'];
 
         return new Response($result);
     }
-
 
 }
