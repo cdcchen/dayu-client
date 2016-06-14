@@ -249,12 +249,12 @@ class Client extends Object
      */
     protected static function xmlParse($xml)
     {
-        if (!is_object($xml)) {
+        if (is_string($xml)) {
             $xml = simplexml_load_string($xml);
         }
         $result = (array)$xml;
         foreach ($result as $key => $value) {
-            if (is_object($value)) {
+            if (is_object($value) || is_array($value)) {
                 $result[$key] = static::xmlParse($value);
             }
         }
