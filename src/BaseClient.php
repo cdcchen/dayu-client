@@ -55,6 +55,15 @@ abstract class BaseClient
         $this->_secret = $secret;
 
         $this->_params = static::getPublicParams();
+
+        $this->init();
+    }
+
+    /**
+     * init
+     */
+    public function init()
+    {
     }
 
     /**

@@ -20,6 +20,12 @@ class SmsSendClient extends BaseClient
      */
     public $method = 'alibaba.aliqin.fc.sms.num.send';
 
+    public function init()
+    {
+        parent::init();
+        $this->setSmsType('normal');
+    }
+
     /**
      * @param string $value
      * @return $this

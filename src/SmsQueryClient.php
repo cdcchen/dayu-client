@@ -20,6 +20,12 @@ class SmsQueryClient extends BaseClient
      */
     public $method = 'alibaba.aliqin.fc.sms.num.query';
 
+    public function init()
+    {
+        parent::init();
+        $this->setPageSize(20);
+    }
+
     /**
      * @param string $id
      * @return $this
@@ -43,7 +49,7 @@ class SmsQueryClient extends BaseClient
         } else {
             $date = $year . $month . $day;
         }
-        
+
         $this->setParam('query_date', $date);
         return $this;
     }
