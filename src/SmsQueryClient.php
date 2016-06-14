@@ -93,7 +93,7 @@ class SmsQueryClient extends BaseClient
 
     /**
      * @param array $data
-     * @return Response
+     * @return SuccessResponse
      */
     protected function afterResponse(array $data)
     {
@@ -101,7 +101,7 @@ class SmsQueryClient extends BaseClient
             $data['values'] = $data['values']['fc_partner_sms_detail_dto'];
         }
 
-        return new Response($data);
+        return new SuccessResponse($data);
     }
 
 
