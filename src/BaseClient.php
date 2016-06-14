@@ -117,6 +117,23 @@ abstract class BaseClient
     }
 
     /**
+     * @param string $value json or xml
+     * @return $this
+     */
+    public function setFormat($value)
+    {
+        return $this->setParam('format', $value);
+    }
+
+    /**
+     * @return array|bool|mixed
+     */
+    public function getFormat()
+    {
+        return $this->getParam('format');
+    }
+
+    /**
      * @param array $params
      * @return $this
      */
@@ -228,6 +245,10 @@ abstract class BaseClient
         }
     }
 
+    /**
+     * @param array $data
+     * @return Response
+     */
     protected function afterResponse(array $data)
     {
         return new Response($data);
