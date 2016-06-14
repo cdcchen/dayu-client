@@ -99,14 +99,14 @@ class SmsSendClient extends BaseClient
 
     /**
      * @param array $data
-     * @return Response
+     * @return SuccessResponse
      */
     protected function afterResponse(array $data)
     {
         $result = $data['result'];
         $result['request_id'] = $data['request_id'];
 
-        return new Response($result);
+        return new SuccessResponse($result);
     }
 
 }
