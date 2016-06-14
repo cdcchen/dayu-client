@@ -47,13 +47,13 @@ class SmsQueryResponse extends SuccessResponse
         $values = $this->getValues();
         if ($values && isset($values['fc_partner_sms_detail_dto'])) {
             $items = $values['fc_partner_sms_detail_dto'];
-            if (isset($items['rec_num'])) {
-                return [new SmsLogItem($items)];
+            if (!isset($items[0])) {
+                $items = [$items];
             }
-            
-            foreach ($items as $index => $item) {
-                $items[$index] = new SmsLogItem($item);
-            }
+
+            array_walk($items, function (&$item) {
+                $item = new SmsLogItem($item);
+            });
 
             return $items;
         } else {

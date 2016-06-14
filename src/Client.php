@@ -235,12 +235,7 @@ class Client extends Object
      */
     protected static function jsonParse($content)
     {
-        $data = json_decode($content, true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-            return current($data);
-        } else {
-            throw new \ErrorException(json_last_error_msg());
-        }
+        return current(json_decode($content, true));
     }
 
     /**
@@ -249,16 +244,8 @@ class Client extends Object
      */
     protected static function xmlParse($xml)
     {
-        if (is_string($xml)) {
-            $xml = simplexml_load_string($xml);
-        }
-        $result = (array)$xml;
-        foreach ($result as $key => $value) {
-            if (is_object($value) || is_array($value)) {
-                $result[$key] = static::xmlParse($value);
-            }
-        }
-        return $result;
+        $xml = simplexml_load_string($xml);
+        return json_decode(json_encode((array)$xml, JSON_UNESCAPED_UNICODE), true);
     }
 
     /**
