@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class SmsClient
  * @package cdcchen\alidayu
  */
-class SmsSendClient extends BaseClient
+class SmsSendRequest extends BaseRequest
 {
     /**
      * @var string
@@ -89,24 +89,17 @@ class SmsSendClient extends BaseClient
         return $this->setParam('extend', $value);
     }
 
+    public function getResponseClass()
+    {
+        return SmsSendResponse::className();
+    }
+
     /**
      * @return array
      */
     protected function getRequireParams()
     {
         return ['sms_type', 'sms_free_sign_name', 'rec_num', 'sms_template_code'];
-    }
-
-    /**
-     * @param array $data
-     * @return SuccessResponse
-     */
-    protected function afterResponse(array $data)
-    {
-        $result = $data['result'];
-        $result['request_id'] = $data['request_id'];
-
-        return new SuccessResponse($result);
     }
 
 }

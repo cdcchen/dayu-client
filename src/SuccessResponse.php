@@ -10,16 +10,16 @@ namespace cdcchen\alidayu;
 
 
 /**
- * Class Response
+ * Class SuccessResponse
  * @package cdcchen\alidayu
  */
 class SuccessResponse extends BaseResponse
 {
     /**
-     * @return bool
+     * @return string|null
      */
-    public function isOK()
+    public function getRequestId()
     {
-        return true;
+        return $this->get('request_id');
     }
 }

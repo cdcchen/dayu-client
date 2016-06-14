@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class SmsLogItem
  * @package cdcchen\alidayu
  */
-class SmsLogItem
+class SmsLogItem extends Object
 {
     /**
      * 等待回执

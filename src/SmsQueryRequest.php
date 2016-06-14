@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class SmsClient
  * @package cdcchen\alidayu
  */
-class SmsQueryClient extends BaseClient
+class SmsQueryRequest extends BaseRequest
 {
     /**
      * @var string method name
@@ -83,6 +83,11 @@ class SmsQueryClient extends BaseClient
         return $this->setParam('rec_num', $value);
     }
 
+    public function getResponseClass()
+    {
+        return SmsQueryResponse::className();
+    }
+
     /**
      * @return array
      */
@@ -90,25 +95,4 @@ class SmsQueryClient extends BaseClient
     {
         return ['rec_num', 'query_date', 'current_page', 'page_size'];
     }
-
-    /**
-     * @param array $data
-     * @return SuccessResponse
-     */
-    protected function afterResponse(array $data)
-    {
-        if (isset($data['values']) && isset($data['values']['fc_partner_sms_detail_dto'])) {
-            $values = [];
-            $items = $data['values']['fc_partner_sms_detail_dto'];
-            foreach ($items as $item) {
-                $values[] = new SmsLogItem($item);
-            }
-
-            $data['values'] = $values;
-        }
-
-        return new SuccessResponse($data);
-    }
-
-
 }

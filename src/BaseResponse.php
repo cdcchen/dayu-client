@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class BaseResponse
  * @package cdcchen\alidayu
  */
-abstract class BaseResponse
+abstract class BaseResponse extends Object
 {
     /**
      * @var array
@@ -23,7 +23,10 @@ abstract class BaseResponse
     /**
      * @return bool
      */
-    abstract public function isOK();
+    public function isOK()
+    {
+        return isset($this->_data['code']);
+    }
 
     /**
      * Error constructor.
@@ -50,5 +53,4 @@ abstract class BaseResponse
     {
         return $this->_data;
     }
-
 }
