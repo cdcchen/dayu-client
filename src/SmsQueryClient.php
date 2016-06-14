@@ -97,8 +97,14 @@ class SmsQueryClient extends BaseClient
      */
     protected function afterResponse(array $data)
     {
-        if (isset($data['values'])) {
-            $data['values'] = $data['values']['fc_partner_sms_detail_dto'];
+        if (isset($data['values']) && isset($data['values']['fc_partner_sms_detail_dto'])) {
+            $values = [];
+            $items = $data['values']['fc_partner_sms_detail_dto'];
+            foreach ($items as $item) {
+                $values[] = new SmsLogItem($item);
+            }
+
+            $data['values'] = $values;
         }
 
         return new SuccessResponse($data);
