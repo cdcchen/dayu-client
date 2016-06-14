@@ -2,18 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: chendong
- * Date: 16/6/8
- * Time: 09:59
+ * Date: 16/6/14
+ * Time: 11:50
  */
 
 namespace cdcchen\alidayu;
 
 
 /**
- * Class Response
+ * Class BaseResponse
  * @package cdcchen\alidayu
  */
-class Response
+abstract class BaseResponse
 {
     /**
      * @var array
@@ -21,7 +21,12 @@ class Response
     private $_data;
 
     /**
-     * Response constructor.
+     * @return bool
+     */
+    abstract public function isOK();
+
+    /**
+     * Error constructor.
      * @param array $data
      */
     public function __construct($data = [])
@@ -30,13 +35,12 @@ class Response
     }
 
     /**
-     * @param string $name
-     * @param mixed $defaultValue
+     * @param $name
      * @return mixed|null
      */
-    public function get($name, $defaultValue = null)
+    public function get($name)
     {
-        return isset($this->_data[$name]) ? $this->_data[$name] : $defaultValue;
+        return isset($this->_data[$name]) ? $this->_data[$name] : null;
     }
 
     /**
@@ -46,4 +50,5 @@ class Response
     {
         return $this->_data;
     }
+
 }

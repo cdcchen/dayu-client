@@ -10,27 +10,17 @@ namespace cdcchen\alidayu;
 
 
 /**
- * Class Error
+ * Class ErrorResponse
  * @package cdcchen\alidayu
  */
-/**
- * Class Error
- * @package cdcchen\alidayu
- */
-class Error
+class ErrorResponse extends BaseResponse
 {
     /**
-     * @var array
+     * @return bool
      */
-    private $_data;
-
-    /**
-     * Error constructor.
-     * @param array $data
-     */
-    public function __construct($data = [])
+    public function isOK()
     {
-        $this->_data = $data;
+        return false;
     }
 
     /**
@@ -63,22 +53,5 @@ class Error
     public function getSubMsg()
     {
         return $this->get('sub_msg');
-    }
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function get($name)
-    {
-        return isset($this->_data[$name]) ? $this->_data[$name] : null;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->_data;
     }
 }

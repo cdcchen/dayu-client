@@ -67,7 +67,7 @@ abstract class BaseClient
     }
 
     /**
-     * @return bool|Error|\cdcchen\alidayu\Response
+     * @return bool|ErrorResponse|\cdcchen\alidayu\SuccessResponse
      * @throws \cdcchen\net\curl\RequestException
      */
     public function execute()
@@ -238,7 +238,7 @@ abstract class BaseClient
 
     /**
      * @param CurlResponse $response
-     * @return bool|Error|CurlResponse
+     * @return bool|ErrorResponse|CurlResponse
      */
     protected function buildResponse(CurlResponse $response)
     {
@@ -248,7 +248,7 @@ abstract class BaseClient
         if (isset($data[$successKey])) {
             return $this->afterResponse($data[$successKey]);
         } elseif (isset($data['error_response'])) {
-            return new Error($data['error_response']);
+            return new ErrorResponse($data['error_response']);
         } else {
             return false;
         }
@@ -256,16 +256,16 @@ abstract class BaseClient
 
     /**
      * @param array $data
-     * @return Response
+     * @return SuccessResponse
      */
     protected function afterResponse(array $data)
     {
-        return new Response($data);
+        return new SuccessResponse($data);
     }
 
     /**
      * @param CurlResponse $response
-     * @return \cdcchen\alidayu\Response | Error
+     * @return \cdcchen\alidayu\SuccessResponse | ErrorResponse
      */
     protected function afterExecute(CurlResponse $response)
     {
