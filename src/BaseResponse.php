@@ -21,14 +21,6 @@ abstract class BaseResponse extends Object
     private $_data;
 
     /**
-     * @return bool
-     */
-    public function isOK()
-    {
-        return isset($this->_data['code']);
-    }
-
-    /**
      * Error constructor.
      * @param array $data
      */

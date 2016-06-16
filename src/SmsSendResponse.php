@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class SmsSendResponse
  * @package cdcchen\alidayu
  */
-class SmsSendResponse extends SuccessResponse
+class SmsSendResponse extends Response
 {
     /**
      * @param string|null $name

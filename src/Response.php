@@ -10,10 +10,10 @@ namespace cdcchen\alidayu;
 
 
 /**
- * Class SuccessResponse
+ * Class Response
  * @package cdcchen\alidayu
  */
-class SuccessResponse extends BaseResponse
+class Response extends BaseResponse
 {
     /**
      * @return string|null

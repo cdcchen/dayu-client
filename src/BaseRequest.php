@@ -82,7 +82,7 @@ abstract class BaseRequest extends Object
 
     public function getResponseClass()
     {
-        return SuccessResponse::className();
+        return ResponseException::className();
     }
 
     public function beforeExecute()

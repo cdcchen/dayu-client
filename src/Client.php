@@ -183,7 +183,7 @@ class Client extends Object
 
     /**
      * @param BaseRequest $request
-     * @return ErrorResponse|SuccessResponse
+     * @return Response
      * @throws \cdcchen\net\curl\RequestException
      */
     public function execute(BaseRequest $request)
@@ -200,13 +200,17 @@ class Client extends Object
     /**
      * @param BaseRequest $request
      * @param CurlResponse $response
-     * @return \cdcchen\alidayu\SuccessResponse | ErrorResponse
+     * @return mixed
+     * @throws ResponseException
      */
     protected function afterExecute(BaseRequest $request, CurlResponse $response)
     {
         $data = $this->parseContent($response->getContent());
         if (isset($data['code'])) {
-            return new ErrorResponse($data);
+            $throw = new ResponseException($data['msg'], $data['code']);
+            $throw->setSubCode($data['sub_code']);
+            $throw->setSubMessage($data['sub_msg']);
+            throw $throw;
         } else {
             $className = $request->getResponseClass();
             return new $className($data);

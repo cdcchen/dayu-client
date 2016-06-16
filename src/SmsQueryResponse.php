@@ -13,7 +13,7 @@ namespace cdcchen\alidayu;
  * Class SmsQueryResponse
  * @package cdcchen\alidayu
  */
-class SmsQueryResponse extends SuccessResponse
+class SmsQueryResponse extends Response
 {
     /**
      * @return int|null
