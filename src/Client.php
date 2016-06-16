@@ -286,7 +286,7 @@ class Client extends Object
     protected static function xmlParse($xml)
     {
         $xml = simplexml_load_string($xml);
-        return json_decode(json_encode((array)$xml, JSON_UNESCAPED_UNICODE), true);
+        return json_decode(json_encode((array)$xml, 320), true);
     }
 
     /**
