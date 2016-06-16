@@ -206,15 +206,15 @@ class Client extends Object
 
     /**
      * @param mixed $data
-     * @return mixed
+     * @return $this
      */
-    private function applyFilters($data)
+    private function applyFilters(&$data)
     {
         foreach ($this->_filters as $filter) {
             $data = call_user_func($filter, $data);
         }
 
-        return $data;
+        return $this;
     }
 
     /**
@@ -242,7 +242,8 @@ class Client extends Object
     protected function afterExecute(BaseRequest $request, CurlResponse $response)
     {
         $data = $this->parseContent($response->getContent());
-        $data = $this->applyFilters($data);
+        $this->applyFilters($data);
+        
         if (isset($data['code'])) {
             $throw = new ResponseException($data['msg'], $data['code']);
             $throw->setSubCode($data['sub_code']);
