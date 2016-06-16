@@ -53,6 +53,11 @@ class Client extends Object
     private $_restUrl = 'http://gw.api.taobao.com/router/rest';
 
     /**
+     * @var array response filter callback method
+     */
+    private $_filters = [];
+
+    /**
      * BaseCUrlClient constructor.
      * @param $appKey
      * @param $secret
@@ -182,6 +187,37 @@ class Client extends Object
     }
 
     /**
+     * @param callable $callback
+     * @return $this
+     */
+    public function setFilter(callable $callback)
+    {
+        $this->_filters[] = $callback;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilters()
+    {
+        return $this->_filters;
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    private function applyFilters($data)
+    {
+        foreach ($this->_filters as $filter) {
+            $data = call_user_func($filter, $data);
+        }
+
+        return $data;
+    }
+
+    /**
      * @param BaseRequest $request
      * @return Response
      * @throws \cdcchen\net\curl\RequestException
@@ -206,6 +242,7 @@ class Client extends Object
     protected function afterExecute(BaseRequest $request, CurlResponse $response)
     {
         $data = $this->parseContent($response->getContent());
+        $data = $this->applyFilters($data);
         if (isset($data['code'])) {
             $throw = new ResponseException($data['msg'], $data['code']);
             $throw->setSubCode($data['sub_code']);
