@@ -41,7 +41,7 @@ abstract class BaseResponse extends Object
     /**
      * @return array
      */
-    public function toArray()
+    public function getData()
     {
         return $this->_data;
     }
