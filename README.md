@@ -11,7 +11,7 @@ composer require cdcchen/dayu-client:^1.0.0
 
 ### 实例化Client
 
-```
+```php
 $appKey = '22222237';
 $secret = 'ed9cf1d59w32f2b90ab3453454ad2d';
 $client = new \cdcchen\alidayu\Client($appKey, $secret);
@@ -22,7 +22,7 @@ $client = new \cdcchen\alidayu\Client($appKey, $secret);
 
 ### 实例化 Request
 
-```
+```php
 $request = new \cdcchen\alidayu\SmsSendRequest();
 $request->setSmsType('normal')
         ->setSmsFreeSignName('签名')
@@ -35,7 +35,7 @@ $request->setSmsType('normal')
 
 ### 发送请求
 
-```
+```php
 use cdcchen\alidayu\ResponseException;
 use Exception;
 
