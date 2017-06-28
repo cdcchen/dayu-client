@@ -18,11 +18,11 @@ use Exception;
 class ResponseException extends Exception
 {
     /**
-     * @var
+     * @var string
      */
     protected $subCode;
     /**
-     * @var
+     * @var string
      */
     protected $subMessage;
 
