@@ -243,11 +243,15 @@ class Client extends Object
     {
         $data = $this->parseContent($response->getContent());
         $this->applyFilters($data);
-        
+
         if (isset($data['code'])) {
             $throw = new ResponseException($data['msg'], $data['code']);
-            $throw->setSubCode($data['sub_code']);
-            $throw->setSubMessage($data['sub_msg']);
+            if (isset($data['sub_code'])) {
+                $throw->setSubCode($data['sub_code']);
+            }
+            if (isset($data['sub_msg'])) {
+                $throw->setSubMessage($data['sub_msg']);
+            }
             throw $throw;
         } else {
             $className = $request->getResponseClass();
